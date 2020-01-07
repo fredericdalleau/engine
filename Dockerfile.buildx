@@ -1,4 +1,4 @@
-ARG GO_VERSION=1.13.15
+ARG GO_VERSION=1.16.4
 ARG BUILDX_COMMIT=v0.5.1
 ARG BUILDX_REPO=https://github.com/docker/buildx.git
 
