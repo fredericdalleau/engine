@@ -6,6 +6,7 @@ import (
 
 	"github.com/docker/docker/libnetwork/iptables"
 	"github.com/docker/docker/libnetwork/portallocator"
+	"github.com/docker/docker/libnetwork/firewallapi"
 )
 
 // PortMapper manages the network address translation
@@ -19,11 +20,11 @@ type PortMapper struct {
 	proxyPath string
 
 	Allocator *portallocator.PortAllocator
-	chain     *iptables.ChainInfo
+	chain     firewallapi.FirewallChain
 }
 
 // SetIptablesChain sets the specified chain into portmapper
-func (pm *PortMapper) SetIptablesChain(c *iptables.ChainInfo, bridgeName string) {
+func (pm *PortMapper) SetFirewallTablesChain(c firewallapi.FirewallChain, bridgeName string) {
 	pm.chain = c
 	pm.bridgeName = bridgeName
 }

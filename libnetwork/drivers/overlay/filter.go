@@ -23,7 +23,7 @@ func filterWait() func() {
 
 func chainExists(cname string) bool {
 	// TODO IPv6 support
-	iptable := iptables.GetIptable(iptables.IPv4)
+	iptable := iptables.GetTable(iptables.IPv4)
 	if _, err := iptable.Raw("-L", cname); err != nil {
 		return false
 	}
@@ -33,7 +33,7 @@ func chainExists(cname string) bool {
 
 func setupGlobalChain() {
 	// TODO IPv6 support
-	iptable := iptables.GetIptable(iptables.IPv4)
+	iptable := iptables.GetTable(iptables.IPv4)
 	// Because of an ungraceful shutdown, chain could already be present
 	if !chainExists(globalChain) {
 		if err := iptable.RawCombinedOutput("-N", globalChain); err != nil {
@@ -51,7 +51,7 @@ func setupGlobalChain() {
 
 func setNetworkChain(cname string, remove bool) error {
 	// TODO IPv6 support
-	iptable := iptables.GetIptable(iptables.IPv4)
+	iptable := iptables.GetTable(iptables.IPv4)
 	// Initialize the onetime global overlay chain
 	filterOnce.Do(setupGlobalChain)
 
@@ -101,7 +101,7 @@ func setFilters(cname, brName string, remove bool) error {
 		opt = "-D"
 	}
 	// TODO IPv6 support
-	iptable := iptables.GetIptable(iptables.IPv4)
+	iptable := iptables.GetTable(iptables.IPv4)
 
 	// Every time we set filters for a new subnet make sure to move the global overlay hook to the top of the both the OUTPUT and forward chains
 	if !remove {

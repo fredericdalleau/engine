@@ -213,7 +213,7 @@ func programMangle(vni uint32, add bool) (err error) {
 	)
 
 	// TODO IPv6 support
-	iptable := iptables.GetIptable(iptables.IPv4)
+	iptable := iptables.GetTable(iptables.IPv4)
 
 	if add == iptable.Exists(iptables.Mangle, chain, rule...) {
 		return
@@ -245,7 +245,7 @@ func programInput(vni uint32, add bool) (err error) {
 	)
 
 	// TODO IPv6 support
-	iptable := iptables.GetIptable(iptables.IPv4)
+	iptable := iptables.GetTable(iptables.IPv4)
 
 	if !add {
 		action = iptables.Delete

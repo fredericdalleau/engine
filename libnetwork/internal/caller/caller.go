@@ -11,7 +11,7 @@ func callerInfo(i int) string {
 	if ok {
 		f := runtime.FuncForPC(ptr)
 		if f != nil {
-			// f.Name() is like: github.com/docker/libnetwork/caller.MethodName
+			// f.Name() is like: github.com/docker/docker/libnetwork/caller.MethodName
 			tmp := strings.Split(f.Name(), ".")
 			if len(tmp) > 0 {
 				fName = tmp[len(tmp)-1]
