@@ -486,15 +486,20 @@ func removeIPChains(version firewallapi.IPVersion) {
 	} else {
 		table = iptables.GetTable(version)
 		// Remove obsolete rules from default chains
-		table.DeleteRule(version, firewallapi.Filter, "FORWARD", "-j", oldIsolationChain)
+		if table != nil {
+			logrus.Infof("table %v", table)
+			table.DeleteRule(version, firewallapi.Filter, "FORWARD", "-j", oldIsolationChain)
+		}
 	}
 
 	// Remove chains
-	table.RemoveExistingChain(string(firewallapi.Nat), DockerChain)
-	table.RemoveExistingChain(string(firewallapi.Filter), DockerChain)
-	table.RemoveExistingChain(string(firewallapi.Filter), IsolationChain1)
-	table.RemoveExistingChain(string(firewallapi.Filter), IsolationChain2)
-	table.RemoveExistingChain(string(firewallapi.Filter), oldIsolationChain)
+	if table != nil {
+		table.RemoveExistingChain(string(firewallapi.Nat), DockerChain)
+		table.RemoveExistingChain(string(firewallapi.Filter), DockerChain)
+		table.RemoveExistingChain(string(firewallapi.Filter), IsolationChain1)
+		table.RemoveExistingChain(string(firewallapi.Filter), IsolationChain2)
+		table.RemoveExistingChain(string(firewallapi.Filter), oldIsolationChain)
+	}
 }
 
 func setupInternalNetworkRules(bridgeIface string, addr *net.IPNet, icc, insert bool) error {

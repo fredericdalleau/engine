@@ -121,6 +121,7 @@ func initDependencies() {
 //InitCheck puts the module together
 func InitCheck() error {
 	initOnce.Do(initDependencies)
+	logrus.Debugf("nftablesPath %v", nftablesPath)
 
 	if nftablesPath == "" {
 		return ErrNftablesNotFound

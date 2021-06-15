@@ -17,17 +17,17 @@ import (
 	"github.com/docker/docker/libnetwork/datastore"
 	"github.com/docker/docker/libnetwork/discoverapi"
 	"github.com/docker/docker/libnetwork/driverapi"
+	"github.com/docker/docker/libnetwork/firewallapi"
+	"github.com/docker/docker/libnetwork/firewalld"
 	"github.com/docker/docker/libnetwork/iptables"
 	"github.com/docker/docker/libnetwork/netlabel"
 	"github.com/docker/docker/libnetwork/netutils"
+	"github.com/docker/docker/libnetwork/nftables"
 	"github.com/docker/docker/libnetwork/ns"
 	"github.com/docker/docker/libnetwork/options"
 	"github.com/docker/docker/libnetwork/osl"
 	"github.com/docker/docker/libnetwork/portmapper"
 	"github.com/docker/docker/libnetwork/types"
-	"github.com/docker/docker/libnetwork/firewallapi"
-	"github.com/docker/docker/libnetwork/firewalld"
-	"github.com/docker/docker/libnetwork/nftables"
 	"github.com/sirupsen/logrus"
 	"github.com/vishvananda/netlink"
 )
@@ -396,9 +396,11 @@ func (d *driver) configure(option map[string]interface{}) error {
 	var tablev6 firewallapi.IPVersion
 
 	if config.EnableNFTables {
+		logrus.Debugf("Using nftables")
 		tablev4 = nftables.IPv4
 		tablev6 = nftables.IPv6
 	} else {
+		logrus.Debugf("Using iptables")
 		tablev4 = iptables.IPv4
 		tablev6 = iptables.IPv6
 	}

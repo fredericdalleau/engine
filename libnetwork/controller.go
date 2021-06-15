@@ -1371,7 +1371,7 @@ func (c *controller) nftablesEnabled() bool {
 	if c.cfg == nil {
 		return false
 	}
-	// parse map cfg["bridge"]["generic"]["EnableIPTable"]
+	// parse map cfg["bridge"]["generic"]["EnableNFTable"]
 	cfgBridge, ok := c.cfg.Daemon.DriverCfg["bridge"].(map[string]interface{})
 	if !ok {
 		return false
@@ -1382,7 +1382,7 @@ func (c *controller) nftablesEnabled() bool {
 	}
 	enabled, ok := cfgGeneric["EnableNFTables"].(bool)
 	if !ok {
-		// unless user explicitly stated, assume iptable is enabled
+		// unless user explicitly stated, assume nftable is enabled
 		enabled = true
 	}
 	return enabled
